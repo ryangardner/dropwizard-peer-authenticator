@@ -1,7 +1,7 @@
 package com.washingtonpost.dw.auth;
 
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.cache.CacheBuilderSpec;
+import com.github.benmanes.caffeine.cache.CaffeineSpec;
 import com.washingtonpost.dw.auth.model.Peer;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
@@ -60,7 +60,7 @@ public class TestAllowedPeerConfiguration {
     public void testCreateCachingAuthentiator() throws AuthenticationException {
         AllowedPeerConfiguration config = new AllowedPeerConfiguration();
         config.setCredentialFile("peers/test-peers.properties");
-        config.setCachePolicy(CacheBuilderSpec.parse("maximumSize=100, expireAfterAccess=10m"));
+        config.setCaffeineSpec(CaffeineSpec.parse("maximumSize=100, expireAfterAccess=10m"));
 
         CachingAuthenticator<BasicCredentials, Peer> cachingAuthenticator =
                 config.createCachingAuthenticator(new MetricRegistry());

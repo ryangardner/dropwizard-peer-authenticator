@@ -10,7 +10,7 @@
     
     <groupId>com.washingtonpost.dropwizard</groupId>
     <artifactId>dropwizard-peer-authenticator</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>4.0.0-dw4-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>dropwizard-peer-authenticator</name>
     <description>Dropwizard Authenticator that uses BasicAuth (user,pass) pairs to control access to your service</description>
@@ -23,19 +23,23 @@
     </scm>
     
     <properties>
-        <version.dropwizard>1.0.5</version.dropwizard>
-        <version.guava>20.0</version.guava>
+        <version.dropwizard>4.0.7</version.dropwizard>
         <version.jasypt>1.9.2</version.jasypt>
         <version.jcommander>1.48</version.jcommander>
         <version.maven.shade>2.4.2</version.maven.shade>
         <version.slf4j>1.7.21</version.slf4j>
+
+        <maven.failsafe.argLine>-XX:+HeapDumpOnOutOfMemoryError -Xmx1024M -Djava.awt.headless=true</maven.failsafe.argLine>
+        <maven.surefire.argLine>-XX:+HeapDumpOnOutOfMemoryError -Xmx1024M -Djava.awt.headless=true</maven.surefire.argLine>
+        <version.maven.surefire.plugin>3.3.1</version.maven.surefire.plugin>
+        <version.maven.jacoco.plugin>0.8.12</version.maven.jacoco.plugin>
     </properties>
     
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
+            <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>guava</artifactId>
-            <version>${version.guava}</version>
+            <version>3.1.8</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -45,6 +49,11 @@
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-auth</artifactId>
+            <version>${version.dropwizard}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
             <version>${version.dropwizard}</version>
         </dependency>
         <dependency>
@@ -132,4 +141,22 @@
             </build>
         </profile>
     </profiles>
+
+    <distributionManagement>
+        <repository>
+            <!-- Note that the ~/.m2/settings.xml mappings for repositories that we set usernames/passwords for
+            are so-called Artifactory "virtual" repositories that facade real local repos and real remote
+            repos.  You cannot distribute to virtual repositories, which is why we need to explicitly
+            spell out the trailing "-local" to our repo name (that's an actual local repository), but we can
+            reuse the username password because they're all the same for any Artifactory repository. -->
+            <id>releases</id>
+            <name>releases</name>
+            <url>https://upside.jfrog.io/upside/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>snapshots</name>
+            <url>https://upside.jfrog.io/upside/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
