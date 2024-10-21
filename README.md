@@ -1,3 +1,5 @@
+## Fork updated to work with dropwizard 4 only, nothing else done to it. (check commit history)
+
 # dropwizard-peer-authenticator
 Dropwizard module to enable BasicAuth security around a service with convenience factories for reading in lists of (users, passwords) who are authorized to make requests of your service.
 
